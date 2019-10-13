@@ -1,0 +1,111 @@
+sharding:
+  jdbc:
+    dataSource:
+      names: ds0,ds1,ds2,ds3,slave0,slave1,slave2,slave3
+      # 配置主库
+      ds0: #org.apache.tomcat.jdbc.pool.DataSource
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://xx.xx.xx.xx:3306/db_00?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 20
+      ds1: #org.apache.tomcat.jdbc.pool.DataSource
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://xx.xx.xx.xx:3306/db_01?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 20
+      ds2: #org.apache.tomcat.jdbc.pool.DataSource
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://xx.xx.xx.xx:3306/db_02?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 20
+      ds3: #org.apache.tomcat.jdbc.pool.DataSource
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://xx.xx.xx.xx:3306/db_03?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 20
+      # 配置从库
+      slave0: #org.apache.tomcat.jdbc.pool.DataSource
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://xx.xx.xx.xx:3306/db_00?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 20
+      slave1: #org.apache.tomcat.jdbc.pool.DataSource
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://xx.xx.xx.xx:3306/db_01?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 20
+      slave2: #org.apache.tomcat.jdbc.pool.DataSource
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://xx.xx.xx.xx:3306/db_02?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 20
+      slave3: #org.apache.tomcat.jdbc.pool.DataSource
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://xx.xx.xx.xx:3306/db_03?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 20
+    config:
+      props:
+        sql:
+          show: true
+      #      masterslave: # 配置读写分离
+      #        load-balance-algorithm-type: round_robin # 配置从库选择策略，提供轮询与随机，这里选择用轮询//random 随机 //round_robin 轮询
+      #        name: db1s2
+      #        master-data-source-name: db-test0
+      #        slave-data-source-names: db-test1
+      sharding:
+        default-data-source-name: ds0   #配置默认分配规则
+        master-slave-rules: # 配置读写分离
+          ds0:
+            master-data-source-name: ds0
+            slave-data-source-names: slave0
+            oad-balance-algorithm-type: round_robin
+          ds1:
+            master-data-source-name: ds1
+            slave-data-source-names: slave1
+            oad-balance-algorithm-type: round_robin
+          ds2:
+            master-data-source-name: ds2
+            slave-data-source-names: slave2
+            oad-balance-algorithm-type: round_robin
+          ds3:
+            master-data-source-name: ds3
+            slave-data-source-names: slave3
+            oad-balance-algorithm-type: round_robin
+        # shardingjdbc--分片规则--订单表
+        # 根据user_id取模分库, 且根据order_id取模分表的两库两表的配置。
+        default-database-strategy:
+          inline:
+            sharding-column: user_id
+            algorithm-expression: ds$->{user_id % 4}
+        tables:
+          t_order:
+            actualDataNodes: ds$->{0..3}.t_order_000$->{0..1}
+            tableStrategy:
+              inline:
+                sharding-column: order_id
+                algorithm-expression: t_order_000$->{order_id % 2}

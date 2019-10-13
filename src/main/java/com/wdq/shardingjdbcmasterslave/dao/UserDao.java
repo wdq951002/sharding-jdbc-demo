@@ -1,13 +1,13 @@
 package com.wdq.shardingjdbcmasterslave.dao;
 
-import com.wdq.shardingjdbcmasterslave.po.UserPo;
+import com.wdq.shardingjdbcmasterslave.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface UserDao {
-    List<UserPo> queryList();
+    List<UserEntity> queryList();
 
-    int insert(UserPo user);
+    int insert(UserEntity user);
 }

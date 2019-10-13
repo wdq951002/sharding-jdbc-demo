@@ -1,4 +1,4 @@
-package com.wdq.shardingjdbcmasterslave.po;
+package com.wdq.shardingjdbcmasterslave.entity;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
  * @author BG405275
  */
 @Data
-public class UserPo {
+public class UserEntity {
     private Integer id;
     private String username;
     private String password;

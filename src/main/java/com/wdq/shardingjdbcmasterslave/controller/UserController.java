@@ -1,7 +1,7 @@
 package com.wdq.shardingjdbcmasterslave.controller;
 
 import com.wdq.shardingjdbcmasterslave.dao.UserDao;
-import com.wdq.shardingjdbcmasterslave.po.UserPo;
+import com.wdq.shardingjdbcmasterslave.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +18,12 @@ public class UserController {
 
 
     @GetMapping
-    public List<UserPo> getUserList() {
+    public List<UserEntity> getUserList() {
         return userDao.queryList();
     }
 
     @PostMapping
-    public void insertUser(UserPo user) {
+    public void insertUser(UserEntity user) {
         userDao.insert(user);
     }
 }

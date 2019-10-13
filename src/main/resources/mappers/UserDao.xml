@@ -5,7 +5,7 @@
 
 <mapper namespace="com.wdq.shardingjdbcmasterslave.dao.UserDao">
 
-    <select id="queryList" resultType="com.wdq.shardingjdbcmasterslave.po.UserPo">
+    <select id="queryList" resultType="com.wdq.shardingjdbcmasterslave.entity.UserEntity">
         select * from user
     </select>
 
