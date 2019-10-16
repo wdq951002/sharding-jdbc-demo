@@ -6,66 +6,66 @@ sharding:
       ds0: #org.apache.tomcat.jdbc.pool.DataSource
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://xx.xx.xx.xx:3306/db_00?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://xxx:3306/db_00?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
         username: root
-        password: 123456
+        password: ENC(3aQe+4mnWcTvMqmth28G4A==)
         #最大连接数
         maxPoolSize: 20
       ds1: #org.apache.tomcat.jdbc.pool.DataSource
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://xx.xx.xx.xx:3306/db_01?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://xxx:3306/db_01?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
         username: root
-        password: 123456
+        password: ENC(3aQe+4mnWcTvMqmth28G4A==)
         #最大连接数
         maxPoolSize: 20
       ds2: #org.apache.tomcat.jdbc.pool.DataSource
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://xx.xx.xx.xx:3306/db_02?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://xxx:3306/db_02?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
         username: root
-        password: 123456
+        password: ENC(3aQe+4mnWcTvMqmth28G4A==)
         #最大连接数
         maxPoolSize: 20
       ds3: #org.apache.tomcat.jdbc.pool.DataSource
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://xx.xx.xx.xx:3306/db_03?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://xxx:3306/db_03?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
         username: root
-        password: 123456
+        password: ENC(3aQe+4mnWcTvMqmth28G4A==)
         #最大连接数
         maxPoolSize: 20
       # 配置从库
       slave0: #org.apache.tomcat.jdbc.pool.DataSource
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://xx.xx.xx.xx:3306/db_00?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://xxx:3306/db_00?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
         username: root
-        password: 123456
+        password: ENC(3aQe+4mnWcTvMqmth28G4A==)
         #最大连接数
         maxPoolSize: 20
       slave1: #org.apache.tomcat.jdbc.pool.DataSource
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://xx.xx.xx.xx:3306/db_01?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://xxx:3306/db_01?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
         username: root
-        password: 123456
+        password: ENC(3aQe+4mnWcTvMqmth28G4A==)
         #最大连接数
         maxPoolSize: 20
       slave2: #org.apache.tomcat.jdbc.pool.DataSource
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://xx.xx.xx.xx:3306/db_02?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://xxx:3306/db_02?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
         username: root
-        password: 123456
+        password: ENC(3aQe+4mnWcTvMqmth28G4A==)
         #最大连接数
         maxPoolSize: 20
       slave3: #org.apache.tomcat.jdbc.pool.DataSource
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://xx.xx.xx.xx:3306/db_03?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        url: jdbc:mysql://xxx:3306/db_03?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
         username: root
-        password: 123456
+        password: ENC(3aQe+4mnWcTvMqmth28G4A==)
         #最大连接数
         maxPoolSize: 20
     config:
@@ -109,3 +109,17 @@ sharding:
               inline:
                 sharding-column: order_id
                 algorithm-expression: t_order_000$->{order_id % 2}
+          t_new_order:
+            actualDataNodes: ds$->{0..3}.t_new_order_000$->{0..1}
+            #指定分库分片键
+            databaseStrategy:
+              complex:
+                shardingColumns: user_id,order_id
+                algorithmClassName: com.wdq.shardingjdbcmasterslave.sequence.SnoWalkerComplexShardingDB
+            #指定分表分片键
+            tableStrategy:
+              complex:
+                shardingColumns: user_id,order_id
+                algorithmClassName: com.wdq.shardingjdbcmasterslave.sequence.SnoWalkerComplexShardingTB
+
+

@@ -4,3 +4,9 @@ mybatis:
 spring:
   profiles:
     include: db-config
+  redis:
+    host: xxx
+    password: wengdiquan_5
+jasypt:
+  encryptor:
+    password: shardingjdbc-demo
